@@ -1,0 +1,4 @@
+.vscode/
+*.pyc
+static/*
+!static/.gitkeep
