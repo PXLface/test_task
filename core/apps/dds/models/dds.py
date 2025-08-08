@@ -1,5 +1,7 @@
 from django.db import models
 
+from smart_selects.db_fields import ChainedForeignKey
+
 from core.apps.common.models import TimeBaseModel
 from core.apps.dds.entities.dds import DDS as DDSEntity
 
@@ -22,11 +24,14 @@ class DDS(TimeBaseModel):
         on_delete=models.PROTECT,
         blank=False
     )
-    subcategory = models.ForeignKey(
+    subcategory = ChainedForeignKey(
         "ChoiceSubcategory",
         verbose_name="Подкатегория",
+        chained_field="category",
+        chained_model_field="category",
+        show_all=False,
         on_delete=models.PROTECT,
-        blank=False
+        blank=False,
     )
     amount = models.DecimalField(
         verbose_name="Сумма",
@@ -53,19 +58,53 @@ class DDS(TimeBaseModel):
 
     class Meta:
         verbose_name = 'Движение денежных средств'
+        verbose_name_plural = 'Движения денежных средств'
 
 
 class ChoiceStatus(models.Model):
-    status_choice = models.CharField("Выбор статуса", max_length=50)
+    status_choice = models.CharField("Статус", max_length=50)
+
+    def __str__(self) -> str:
+        return self.status_choice
+    
+    class Meta:
+        verbose_name = 'Статус'
+        verbose_name_plural = 'Статусы'
 
 
 class ChoiceOperationType(models.Model):
-    operation_type_choice = models.CharField("Выбор типа операции", max_length=50)
+    operation_type_choice = models.CharField("Тип операции", max_length=50)
+
+    def __str__(self) -> str:
+        return self.operation_type_choice
+
+    class Meta:
+        verbose_name = 'Тип'
+        verbose_name_plural = 'Типы'
 
 
 class ChoiceCategory(models.Model):
-    category_choice = models.CharField("Выбор категории", max_length=50)
+    category_choice = models.CharField("Категория", max_length=50)
+
+    def __str__(self) -> str:
+        return self.category_choice
+
+    class Meta:
+        verbose_name = 'Категория'
+        verbose_name_plural = 'Категории'
 
 
 class ChoiceSubcategory(models.Model):
-    subcategory_choice = models.CharField("Выбор подкатегории", max_length=50)
+    subcategory_choice = models.CharField("Подкатегория", max_length=50)
+    category = models.ForeignKey(
+        "ChoiceCategory",
+        verbose_name="Категория",
+        on_delete=models.PROTECT
+    )
+    
+    def __str__(self) -> str:
+        return self.subcategory_choice
+
+    class Meta:
+        verbose_name = 'Подкатегория'
+        verbose_name_plural = 'Подкатегории'
