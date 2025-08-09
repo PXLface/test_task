@@ -1,7 +1,7 @@
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from api.filters import DDSApiFilter
-from core.apps.dds.services.dds import IDDSService
+from core.apps.dds.services.dds import IGETDDS, ICreateDDS
 from core.project.containers import get_container
 from api.serializers import CreateDDSSerializer, DDSSerializer
 from rest_framework.request import Request
@@ -13,7 +13,7 @@ class DDSListView(APIView):
     @handle_dds_exceptions
     def get(self, request: Request):
         container = get_container()
-        service: IDDSService = container.resolve(IDDSService)
+        service: IGETDDS = container.resolve(IGETDDS)
 
         filters_data, pagination = validate_dds_filters(request=request)
 
@@ -25,10 +25,28 @@ class DDSListView(APIView):
 
 
 class DDSCreateView(APIView):
-    def post(self, requset: Request):
-        serializer = CreateDDSSerializer(requset.data)
-        dto = serializer.to_dto
-        created_entity = dds_service.created_dds(dto)
+    def get(self, request: Request):
+        return Response({
+            "status": "Бизнес",
+            "operation_type": "Пополнение",
+            "category": "Инфраструктура",
+            "subcategory": "Proxy",
+            "amount": "2340.43",
+            "comment": "3123123",
+            "created_at": "2025-04-11",
+        })
+    
+    def post(self, request: Request):
+        container = get_container()
+        service: ICreateDDS = container.resolve(ICreateDDS)
+
+        validated_data=request.data
+
+        serializer = CreateDDSSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
         
+        
+        dto = serializer.to_dto()
+        created_entity = service.create_dds(dto)
+
         return Response()
-        

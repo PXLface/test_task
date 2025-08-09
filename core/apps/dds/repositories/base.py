@@ -1,6 +1,7 @@
 from abc import ABC, abstractmethod
 from dataclasses import dataclass
-from django.db.models import QuerySet
+from typing import Optional, Type
+from django.db.models import QuerySet, Model
 from api.filters import PaginationIn
 from core.apps.dds.entities.dds import DDS as DDSEntity
 from core.apps.dds.filters.dds import DDSFilters

@@ -54,10 +54,10 @@ class DDS(TimeBaseModel):
 
 
 class ChoiceStatus(models.Model):
-    status_choice = models.CharField("Статус", max_length=50)
+    choice_value = models.CharField("Статус", max_length=50)
 
     def __str__(self) -> str:
-        return self.status_choice
+        return self.choice_value
 
     class Meta:
         verbose_name = 'Статус'
@@ -65,10 +65,10 @@ class ChoiceStatus(models.Model):
 
 
 class ChoiceOperationType(models.Model):
-    operation_type_choice = models.CharField("Тип операции", max_length=50)
+    choice_value = models.CharField("Тип операции", max_length=50)
 
     def __str__(self) -> str:
-        return self.operation_type_choice
+        return self.choice_value
 
     class Meta:
         verbose_name = 'Тип'
@@ -76,7 +76,7 @@ class ChoiceOperationType(models.Model):
 
 
 class ChoiceCategory(models.Model):
-    category_choice = models.CharField("Категория", max_length=50)
+    choice_value = models.CharField("Категория", max_length=50)
     operation_type = models.ForeignKey(
         "ChoiceOperationType",
         verbose_name='Тип операции',
@@ -84,7 +84,7 @@ class ChoiceCategory(models.Model):
     )
 
     def __str__(self) -> str:
-        return self.category_choice
+        return self.choice_value
 
     class Meta:
         verbose_name = 'Категория'
@@ -92,7 +92,7 @@ class ChoiceCategory(models.Model):
 
 
 class ChoiceSubcategory(models.Model):
-    subcategory_choice = models.CharField("Подкатегория", max_length=50)
+    choice_value = models.CharField("Подкатегория", max_length=50)
     category = models.ForeignKey(
         "ChoiceCategory",
         verbose_name="Категория",
@@ -100,7 +100,7 @@ class ChoiceSubcategory(models.Model):
     )
     
     def __str__(self) -> str:
-        return self.subcategory_choice
+        return self.choice_value
 
     class Meta:
         verbose_name = 'Подкатегория'

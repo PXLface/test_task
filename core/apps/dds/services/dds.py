@@ -9,16 +9,20 @@ from core.apps.dds.repositories.base import IDDSRepository
 
 
 @dataclass
-class IDDSService(ABC):
+class IGETDDS(ABC):
     @staticmethod
     def get_dds_list(self, filters: DDSFilters, pagination):
         ...
     
+
+@dataclass
+class ICreateDDS(ABC):
+    @staticmethod
     def create_dds(self, dto: CreateDDSDTO):
         ...
 
 
-class GetDDSService(IDDSService):
+class GetDDSService(IGETDDS):
     def __init__(self, repository: IDDSRepository):
         self._repository = repository
 
@@ -29,10 +33,12 @@ class GetDDSService(IDDSService):
 
 
 
-class CreateDDSSErvice(IDDSService):
+class CreateDDSSErvice(ICreateDDS):
     def __init__(self, repository: IDDSRepository):
         self._repository = repository
 
     def create_dds(self, dto: CreateDDSDTO) -> DDSEntity:
-        entity = CreateDDSDTO.to_entity(CreateDDSDTO)
+        entity = dto.to_entity()
+
+
         return self._repository.save(entity=entity)

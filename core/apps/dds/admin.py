@@ -23,23 +23,23 @@ class DDSAdmin(admin.ModelAdmin):
 
 @admin.register(ChoiceStatus)
 class ChoiceStatusAdmin(admin.ModelAdmin):
-    list_display = ('status_choice',)
+    list_display = ('choice_value',)
 
 
 @admin.register(ChoiceOperationType)
 class ChoiceOperationTypeAdmin(admin.ModelAdmin):
-    list_display = ('operation_type_choice',)
+    list_display = ('choice_value',)
 
 
 @admin.register(ChoiceCategory)
 class ChoiceCategoryAdmin(admin.ModelAdmin):
-    list_display = ('category_choice',)
+    list_display = ('choice_value',)
 
 
 
 @admin.register(ChoiceSubcategory)
 class ChoiceSubcategoryAdmin(admin.ModelAdmin):
-    search_fields = ['subcategory_choice']
+    search_fields = ['choice_value']
     list_filter = ['category']
     
     def get_search_results(self, request, queryset, search_term):

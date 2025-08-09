@@ -1,8 +1,9 @@
-from django.db.models import QuerySet
+from typing import Optional, Type
+from django.db.models import QuerySet, Model
 
 from api.filters import PaginationIn
 from core.apps.dds.filters.dds import DDSFilterSpecification, DDSFilters
-from core.apps.dds.models.dds import DDS as DDSModel
+from core.apps.dds.models.dds import DDS as DDSModel, ChoiceStatus, ChoiceCategory, ChoiceOperationType, ChoiceSubcategory
 from core.apps.dds.repositories.base import IDDSRepository
 from core.apps.dds.entities.dds import DDS as DDSEntity
 
@@ -16,21 +17,22 @@ class ORMDDSRepository(IDDSRepository):
         """Convert Domain Entity to Database Model"""
         return DDSModel(
             id=entity.id,
-            status=entity.status,
-            operation_type=entity.operation_type,
-            category=entity.category,
-            subcategory=entity.subcategory,
+            status=ChoiceStatus.objects.get(choice_value=entity.status),
+            operation_type=ChoiceOperationType.objects.get(choice_value=entity.operation_type),
+            category=ChoiceCategory.objects.get(choice_value=entity.category),
+            subcategory=ChoiceSubcategory.objects.get(choice_value=entity.subcategory),
             amount=entity.amount,
+            comment=entity.comment,
             created_at=entity.created_at,
         )
 
     def _to_entity(self, model: DDSModel) -> DDSEntity:
         return DDSEntity(
             id=model.id,
-            status=model.status.status_choice,
-            operation_type=model.operation_type.operation_type_choice,
-            category=model.category.category_choice,
-            subcategory=model.subcategory.subcategory_choice,
+            status=model.status.choice_value,
+            operation_type=model.operation_type.choice_value,
+            category=model.category.choice_value,
+            subcategory=model.subcategory.choice_value,
             amount=model.amount,
             comment=model.comment,
             created_at=model.created_at,

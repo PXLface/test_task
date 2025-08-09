@@ -3,6 +3,7 @@ from datetime import date
 from decimal import Decimal
 
 from core.apps.dds.entities.dds import DDS as DDSEntity
+from core.apps.dds.models.dds import ChoiceStatus
 
 
 @dataclass
@@ -16,14 +17,14 @@ class CreateDDSDTO:
     created_at: date
 
 
-    @classmethod
-    def to_entity(cls) -> DDSEntity:
+    def to_entity(self) -> DDSEntity:
         return DDSEntity(
-            status=cls.status,
-            operation_type=cls.operation_type,
-            category=cls.category,
-            subcategory=cls.subcategory,
-            amount=cls.amount,
-            comment=cls.comment,
-            created_at=cls.created_at
+            id=None,
+            status=self.status,
+            operation_type=self.operation_type,
+            category=self.category,
+            subcategory=self.subcategory,
+            amount=self.amount,
+            comment=self.comment,
+            created_at=self.created_at
         )
