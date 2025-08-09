@@ -3,20 +3,20 @@ from django.db import models
 from smart_selects.db_fields import ChainedForeignKey
 
 from core.apps.common.models import TimeBaseModel
-from core.apps.dds.entities.dds import DDS as DDSEntity
+
 
 class DDS(TimeBaseModel):
     status = models.ForeignKey(
         "ChoiceStatus",
         verbose_name="Статус",
         on_delete=models.PROTECT,
-        blank=True
+        blank=True,
     )
     operation_type = models.ForeignKey(
         "ChoiceOperationType",
         verbose_name="Тип операции",
         on_delete=models.PROTECT,
-        blank=False
+        blank=False,
     )
     category = ChainedForeignKey(
         "ChoiceCategory",
@@ -40,13 +40,12 @@ class DDS(TimeBaseModel):
         verbose_name="Сумма",
         max_digits=12,
         decimal_places=2,
-        blank=False
+        blank=False,
     )
     comment = models.TextField(
         verbose_name="Комментарий",
-        blank=True
+        blank=True,
     )
-
 
     class Meta:
         verbose_name = 'Движение денежных средств'
@@ -80,7 +79,7 @@ class ChoiceCategory(models.Model):
     operation_type = models.ForeignKey(
         "ChoiceOperationType",
         verbose_name='Тип операции',
-        on_delete=models.PROTECT
+        on_delete=models.PROTECT,
     )
 
     def __str__(self) -> str:
@@ -96,9 +95,9 @@ class ChoiceSubcategory(models.Model):
     category = models.ForeignKey(
         "ChoiceCategory",
         verbose_name="Категория",
-        on_delete=models.PROTECT
+        on_delete=models.PROTECT,
     )
-    
+
     def __str__(self) -> str:
         return self.choice_value
 

@@ -14,6 +14,7 @@ from pathlib import Path
 
 import environ
 
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent.parent.parent
 env = environ.Env()
@@ -90,7 +91,7 @@ DATABASES = {
         'PASSWORD': env('POSTGRES_PASSWORD'),
         'HOST': env('POSTGRES_HOST'),
         'PORT': env('POSTGRES_PORT'),
-    }
+    },
 }
 
 

@@ -1,7 +1,9 @@
 from dataclasses import dataclass
+
 from rest_framework import serializers
 
 from core.apps.dds.filters.dds import DDSFilters
+
 
 class DDSApiFilter(serializers.Serializer):
     status = serializers.CharField(required=False)
@@ -20,6 +22,7 @@ class DDSApiFilter(serializers.Serializer):
             date_from=self.get('date_from'),
             date_to=self.get('date_to'),
         )
+
 
 @dataclass
 class PaginationIn:

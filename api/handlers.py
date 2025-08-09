@@ -1,10 +1,14 @@
-from functools import wraps
-from rest_framework.response import Response
-from core.apps.dds.exceptions.dds import DDSDomainError
 import logging
+from functools import wraps
+
 from rest_framework import status
+from rest_framework.response import Response
+
+from core.apps.dds.exceptions.dds import DDSDomainError
+
 
 logger = logging.getLogger(__name__)
+
 
 def handle_dds_exceptions(view_func):
     @wraps(view_func)
@@ -15,7 +19,7 @@ def handle_dds_exceptions(view_func):
         except DDSDomainError as e:
             return Response(
                 {"error": e.message, "details": e.details},
-                status=e.http_status_code
+                status=e.http_status_code,
             )
 
         except Exception as e:
@@ -24,8 +28,8 @@ def handle_dds_exceptions(view_func):
                 {
                     "error": "Internal server error",
                     "details": str(e),
-                    "type": e.__class__.__name__
+                    "type": e.__class__.__name__,
                 },
-                status=status.HTTP_500_INTERNAL_SERVER_ERROR
+                status=status.HTTP_500_INTERNAL_SERVER_ERROR,
             )
     return wrapper

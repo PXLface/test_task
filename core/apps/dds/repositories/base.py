@@ -1,7 +1,11 @@
-from abc import ABC, abstractmethod
+from abc import (
+    ABC,
+    abstractmethod,
+)
 from dataclasses import dataclass
-from typing import Optional, Type
-from django.db.models import QuerySet, Model
+
+from django.db.models import QuerySet
+
 from api.filters import PaginationIn
 from core.apps.dds.entities.dds import DDS as DDSEntity
 from core.apps.dds.filters.dds import DDSFilters
@@ -18,7 +22,7 @@ class IDDSRepository(ABC):
         ...
 
     @abstractmethod
-    def get_dds_queryset(self, filters:DDSFilters) -> QuerySet:
+    def get_dds_queryset(self, filters: DDSFilters) -> QuerySet:
         ...
 
     @abstractmethod
@@ -26,5 +30,5 @@ class IDDSRepository(ABC):
         ...
 
     @abstractmethod
-    def delete(self, id: int) -> None:
+    def delete(self, id: int) -> None: # noqa
         ...

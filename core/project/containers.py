@@ -2,7 +2,12 @@ import punq
 
 from core.apps.dds.repositories.base import IDDSRepository
 from core.apps.dds.repositories.orm import ORMDDSRepository
-from core.apps.dds.services.dds import IGETDDS, GetDDSService, ICreateDDS, CreateDDSSErvice
+from core.apps.dds.services.dds import (
+    CreateDDSSErvice,
+    GetDDSService,
+    ICreateDDS,
+    IGETDDS,
+)
 
 
 def get_container() -> punq.Container:

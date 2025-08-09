@@ -2,3 +2,5 @@
 *.pyc
 static/*
 !static/.gitkeep
+.venv/
+__pycache__/

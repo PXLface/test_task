@@ -1,6 +1,7 @@
 from dataclasses import dataclass
 from typing import Optional
 
+
 @dataclass
 class DDSDomainError(Exception):
     message: str
@@ -13,13 +14,14 @@ class InvalidPaginationError(DDSDomainError):
         super().__init__(
             message="Invalid pagination parameters",
             details=details,
-            http_status_code=400
+            http_status_code=400,
         )
+
 
 class DDSServerError(DDSDomainError):
     def __init__(self, details: str):
         super().__init__(
             message="Iternal server error",
             details={"error": details},
-            http_status_code=500
+            http_status_code=500,
         )

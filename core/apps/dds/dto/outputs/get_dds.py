@@ -1,11 +1,13 @@
 from dataclasses import dataclass
 from datetime import date
 from decimal import Decimal
+
 from core.apps.dds.entities.dds import DDS as DDSEntity
+
 
 @dataclass
 class DDSResponseDTO:
-    id: int
+    id: int # noqa
     status: str
     operation_type: str
     category: str

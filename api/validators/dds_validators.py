@@ -1,14 +1,30 @@
-from abc import ABC, abstractmethod
-from typing import Any, Dict, Tuple
-from rest_framework.request import Request
-from core.apps.dds.exceptions.dds import InvalidPaginationError, DDSDomainError
-from api.filters import PaginationIn, DDSApiFilter
+from abc import (
+    ABC,
+    abstractmethod,
+)
+from typing import (
+    Any,
+    Dict,
+    Tuple,
+)
+
 from rest_framework import status
+from rest_framework.request import Request
+
+from api.filters import (
+    DDSApiFilter,
+    PaginationIn,
+)
+from core.apps.dds.exceptions.dds import (
+    DDSDomainError,
+    InvalidPaginationError,
+)
+
 
 def validate_dds_filters(request: Request) -> Tuple[dict, PaginationIn]:
     validator = DDSApiValidator()
     filters = validator.validate_filters(request=request)
-    pagination = validator.validate_pagination(request=request)    
+    pagination = validator.validate_pagination(request=request)
 
     return filters, pagination
 
@@ -30,7 +46,7 @@ class DDSApiValidator(IDDSApiValidator):
             raise DDSDomainError(
                 message="Invalid filters",
                 details=api_filter.errors,
-                http_status_code=status.HTTP_400_BAD_REQUEST
+                http_status_code=status.HTTP_400_BAD_REQUEST,
             )
         return api_filter.validated_data
 

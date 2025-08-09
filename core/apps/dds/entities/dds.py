@@ -5,7 +5,7 @@ from decimal import Decimal
 
 @dataclass
 class DDS:
-    id: int
+    id: int # noqa
     status: str
     operation_type: str
     category: str

@@ -1,9 +1,9 @@
 from abc import ABC
 from dataclasses import dataclass
 from typing import Iterable
+
 from core.apps.dds.dto.inputs.create_dds import CreateDDSDTO
 from core.apps.dds.dto.outputs.get_dds import DDSResponseDTO
-from core.apps.dds.entities.dds import DDS as DDSEntity
 from core.apps.dds.filters.dds import DDSFilters
 from core.apps.dds.repositories.base import IDDSRepository
 
@@ -13,12 +13,12 @@ class IGETDDS(ABC):
     @staticmethod
     def get_dds_list(self, filters: DDSFilters, pagination):
         ...
-    
+
 
 @dataclass
 class ICreateDDS(ABC):
     @staticmethod
-    def create_dds(self, dto: CreateDDSDTO):
+    def create_dds(self, dto: CreateDDSDTO) -> CreateDDSDTO:
         ...
 
 
@@ -31,14 +31,12 @@ class GetDDSService(IGETDDS):
         return [DDSResponseDTO.from_entity(entity=items) for items in entity]
 
 
-
-
 class CreateDDSSErvice(ICreateDDS):
     def __init__(self, repository: IDDSRepository):
         self._repository = repository
 
-    def create_dds(self, dto: CreateDDSDTO) -> DDSEntity:
+    def create_dds(self, dto: CreateDDSDTO) -> CreateDDSDTO:
         entity = dto.to_entity()
-
-
-        return self._repository.save(entity=entity)
+        self._repository.save(entity=entity)
+        dto.id = entity.id
+        return dto

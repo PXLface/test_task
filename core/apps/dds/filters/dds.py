@@ -3,6 +3,7 @@ from datetime import date
 
 from django.db.models import Q
 
+
 @dataclass(frozen=True)
 class DDSFilters:
     status: str | None = None

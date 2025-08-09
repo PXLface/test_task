@@ -1,3 +1,5 @@
+from typing import Dict
+
 from rest_framework import serializers
 
 from core.apps.dds.dto.inputs.create_dds import CreateDDSDTO
@@ -5,7 +7,7 @@ from core.apps.dds.dto.outputs.get_dds import DDSResponseDTO
 
 
 class DDSSerializer(serializers.Serializer):
-    id = serializers.IntegerField()
+    id = serializers.IntegerField() # noqa
     status = serializers.CharField()
     operation_type = serializers.CharField()
     category = serializers.CharField()
@@ -13,10 +15,10 @@ class DDSSerializer(serializers.Serializer):
     amount = serializers.DecimalField(max_digits=12, decimal_places=2)
     comment = serializers.CharField()
     created_at = serializers.DateField()
-    
+
     @staticmethod
     def from_dto(dto: DDSResponseDTO) -> dict:
-        return{
+        return {
             'id': dto.id,
             'status': dto.status,
             'operation_type': dto.operation_type,
@@ -29,6 +31,7 @@ class DDSSerializer(serializers.Serializer):
 
 
 class CreateDDSSerializer(serializers.Serializer):
+    id = serializers.IntegerField(required=False) # noqa
     status = serializers.CharField()
     operation_type = serializers.CharField()
     category = serializers.CharField()
@@ -39,6 +42,7 @@ class CreateDDSSerializer(serializers.Serializer):
 
     def to_dto(self) -> CreateDDSDTO:
         return CreateDDSDTO(
+            id=None,
             status=self.validated_data['status'],
             operation_type=self.validated_data['operation_type'],
             category=self.validated_data['category'],
@@ -47,3 +51,16 @@ class CreateDDSSerializer(serializers.Serializer):
             comment=self.validated_data['comment'],
             created_at=self.validated_data['created_at'],
         )
+
+    @staticmethod
+    def from_dto(dto: CreateDDSDTO) -> Dict:
+        return {
+            'id': dto.id,
+            'status': dto.status,
+            'operation_type': dto.operation_type,
+            'category': dto.category,
+            'subcategory': dto.subcategory,
+            'amount': str(dto.amount),
+            'comment': dto.comment,
+            'created_at': dto.created_at.isoformat() if dto.created_at else None,
+        }

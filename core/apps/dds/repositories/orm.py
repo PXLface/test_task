@@ -1,18 +1,27 @@
-from typing import Optional, Type
-from django.db.models import QuerySet, Model
+from django.db.models import QuerySet
 
 from api.filters import PaginationIn
-from core.apps.dds.filters.dds import DDSFilterSpecification, DDSFilters
-from core.apps.dds.models.dds import DDS as DDSModel, ChoiceStatus, ChoiceCategory, ChoiceOperationType, ChoiceSubcategory
-from core.apps.dds.repositories.base import IDDSRepository
 from core.apps.dds.entities.dds import DDS as DDSEntity
+from core.apps.dds.filters.dds import (
+    DDSFilters,
+    DDSFilterSpecification,
+)
+from core.apps.dds.models.dds import (
+    ChoiceCategory,
+    ChoiceOperationType,
+    ChoiceStatus,
+    ChoiceSubcategory,
+    DDS as DDSModel,
+)
+from core.apps.dds.repositories.base import IDDSRepository
+
 
 class ORMDDSRepository(IDDSRepository):
-    def _get_filtered_queryset(self, filters:DDSFilters) -> QuerySet:
+    def _get_filtered_queryset(self, filters: DDSFilters) -> QuerySet:
         spec = DDSFilterSpecification()
         query = spec(filters)
         return DDSModel.objects.filter(query)
-    
+
     def _from_entity(self, entity: DDSEntity) -> DDSModel:
         """Convert Domain Entity to Database Model"""
         return DDSModel(
@@ -40,20 +49,21 @@ class ORMDDSRepository(IDDSRepository):
 
     def get_dds_list(
         self,
-        filters:DDSFilters,
-        pagination:PaginationIn
+        filters: DDSFilters,
+        pagination: PaginationIn,
     ) -> list:
         qs = self._get_filtered_queryset(filters=filters)[pagination.offset:pagination.offset + pagination.limit]
 
         return [self._to_entity(model=item) for item in qs]
 
-    def get_dds_queryset(self, filters:DDSFilters) -> QuerySet:
+    def get_dds_queryset(self, filters: DDSFilters) -> QuerySet:
         return self._get_filtered_queryset(filters=filters)
 
     def save(self, entity: DDSEntity) -> DDSEntity:
         model = self._from_entity(entity=entity)
         model.save()
+        entity.id = model.id
         return entity
-    
-    def delete(self, id):
+
+    def delete(self, id): # noqa
         ...
