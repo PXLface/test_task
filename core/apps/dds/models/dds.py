@@ -46,18 +46,7 @@ class DDS(TimeBaseModel):
         verbose_name="Комментарий",
         blank=True
     )
-    
-    def to_entity(self) -> DDSEntity:
-        return DDSEntity(
-            id=self.id,
-            status=self.status.status_choice,
-            operation_type=self.operation_type.operation_type_choice,
-            category=self.category.category_choice,
-            subcategory=self.subcategory.subcategory_choice,
-            amount=self.amount,
-            comment=self.comment,
-            created_at=self.created_at,
-        )
+
 
     class Meta:
         verbose_name = 'Движение денежных средств'
