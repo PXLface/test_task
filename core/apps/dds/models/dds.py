@@ -18,11 +18,14 @@ class DDS(TimeBaseModel):
         on_delete=models.PROTECT,
         blank=False
     )
-    category = models.ForeignKey(
+    category = ChainedForeignKey(
         "ChoiceCategory",
         verbose_name="Категория",
+        chained_field="operation_type",
+        chained_model_field="operation_type",
+        show_all=False,
         on_delete=models.PROTECT,
-        blank=False
+        blank=False,
     )
     subcategory = ChainedForeignKey(
         "ChoiceSubcategory",
@@ -47,10 +50,10 @@ class DDS(TimeBaseModel):
     def to_entity(self) -> DDSEntity:
         return DDSEntity(
             id=self.id,
-            status=self.status,
-            operation_type=self.operation_type,
-            category=self.category,
-            subcategory=self.subcategory,
+            status=self.status.status_choice,
+            operation_type=self.operation_type.operation_type_choice,
+            category=self.category.category_choice,
+            subcategory=self.subcategory.subcategory_choice,
             amount=self.amount,
             comment=self.comment,
             created_at=self.created_at,
@@ -66,7 +69,7 @@ class ChoiceStatus(models.Model):
 
     def __str__(self) -> str:
         return self.status_choice
-    
+
     class Meta:
         verbose_name = 'Статус'
         verbose_name_plural = 'Статусы'
@@ -85,6 +88,11 @@ class ChoiceOperationType(models.Model):
 
 class ChoiceCategory(models.Model):
     category_choice = models.CharField("Категория", max_length=50)
+    operation_type = models.ForeignKey(
+        "ChoiceOperationType",
+        verbose_name='Тип операции',
+        on_delete=models.PROTECT
+    )
 
     def __str__(self) -> str:
         return self.category_choice

@@ -35,7 +35,7 @@ class DDSFilters:
 
 class DDSFilterSpecification:
     def __call__(self, filters: DDSFilters) -> Q:
-        query = Q(is_visible=True)
+        query = Q()
 
         if filters.status:
             query &= Q(status=filters.status)

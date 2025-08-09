@@ -12,6 +12,11 @@ dependencies = [
     "psycopg (>=3.2.9,<4.0.0)",
     "django-environ (>=0.12.0, <1.0.0)",
     "django-smart-selects (>=1.7.2,<2.0.0)",
+    "django-admin-rangefilter (>=0.13.3,<0.14.0)",
+    "django-filter (>=25.1,<26.0)",
+    "djangorestframework (>=3.16.1,<4.0.0)",
+    "punq (>=0.7.0,<0.8.0)",
+    "coreapi (>=2.3.3,<3.0.0)",
 ]
 
 

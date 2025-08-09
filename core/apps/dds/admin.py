@@ -1,5 +1,7 @@
 from django.contrib import admin
 
+from rangefilter.filters import DateRangeFilter
+
 from core.apps.dds.models.dds import DDS, ChoiceCategory, ChoiceOperationType, ChoiceStatus, ChoiceSubcategory
 
 
@@ -7,7 +9,7 @@ from core.apps.dds.models.dds import DDS, ChoiceCategory, ChoiceOperationType, C
 @admin.register(DDS)
 class DDSAdmin(admin.ModelAdmin):
     list_display = ('created_at', 'status', 'operation_type', 'category', 'subcategory', 'amount', 'comment')
-    list_filter = ('created_at', 'status', 'operation_type', 'category', 'subcategory')
+    list_filter = (('created_at', DateRangeFilter), 'status', 'operation_type', 'category', 'subcategory')
     class Media:
         css = {
             'all': (
