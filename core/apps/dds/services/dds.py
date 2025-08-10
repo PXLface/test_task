@@ -6,6 +6,7 @@ from core.apps.dds.dto.inputs.create_dds import CreateDDSDTO
 from core.apps.dds.dto.outputs.get_dds import DDSResponseDTO
 from core.apps.dds.filters.dds import DDSFilters
 from core.apps.dds.repositories.base import IDDSRepository
+from core.apps.dds.validators.domain import DDSDomainValidator
 
 
 @dataclass
@@ -54,6 +55,9 @@ class CreateDDSSErvice(ICreateDDS):
         Преобразует DTO в сущность, сохраняет с возвращением обновленного DTO
         """
         entity = dto.to_entity()
+
+        DDSDomainValidator.validate_positive_amount(amount=entity.amount)
+
         self._repository.save(entity=entity)
         dto.id = entity.id
         return dto

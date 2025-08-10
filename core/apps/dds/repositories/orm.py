@@ -14,6 +14,7 @@ from core.apps.dds.models.dds import (
     DDS as DDSModel,
 )
 from core.apps.dds.repositories.base import IDDSRepository
+from core.apps.dds.validators.infrastructure import RepositoryValidator
 
 
 class ORMDDSRepository(IDDSRepository):
@@ -77,11 +78,16 @@ class ORMDDSRepository(IDDSRepository):
 
         Возвращает Entity с полученным id
         """
-        model = self._from_entity(entity=entity)
-        model.save()
-        entity.id = model.id
+
+        instance = self._from_entity(entity=entity)
+
+        RepositoryValidator.validate_relation(instance=instance)
+        RepositoryValidator.check_duplicate_opertaion(instance=instance)
+
+        instance.save()
+        entity.id = instance.id
         return entity
 
     def delete(self, id): # noqa
-        # !TODO Удаление не реализовано
+        # !TODO Удаление не реализовано в API
         ...

@@ -11,6 +11,7 @@ from api.serializers import (
     CreateDDSSerializer,
     DDSSerializer,
 )
+from api.validators.dds_validators import DDSInputValidator
 from core.apps.dds.services.dds import (
     ICreateDDS,
     IGETDDS,
@@ -32,6 +33,9 @@ class DDSListView(APIView):
 
         filter_serializer = DDSApiFilter(data=request.query_params)
         filter_serializer.is_valid(raise_exception=True)
+
+        DDSInputValidator.validate_amount(value=request.query_params.get('amount'))
+        DDSInputValidator.validate_dates(request=request)
 
         pagination = PaginationIn(
             offset=int(request.query_params.get('offset', 0)),
@@ -73,6 +77,8 @@ class DDSCreateView(APIView):
         service: ICreateDDS = container.resolve(ICreateDDS)
 
         validated_data = request.data
+
+        DDSInputValidator.validate_amount(value=validated_data.get("amount"))
 
         serializer = CreateDDSSerializer(data=validated_data)
         serializer.is_valid(raise_exception=True)

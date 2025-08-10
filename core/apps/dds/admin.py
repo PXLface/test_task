@@ -2,6 +2,7 @@ from django.contrib import admin
 
 from rangefilter.filters import DateRangeFilter
 
+from core.apps.dds.admin_form import DDSAdminForm
 from core.apps.dds.models.dds import (
     ChoiceCategory,
     ChoiceOperationType,
@@ -13,6 +14,7 @@ from core.apps.dds.models.dds import (
 
 @admin.register(DDS)
 class DDSAdmin(admin.ModelAdmin):
+    form = DDSAdminForm
     list_display = ('created_at', 'status', 'operation_type', 'category', 'subcategory', 'amount', 'comment')
     list_filter = (('created_at', DateRangeFilter), 'status', 'operation_type', 'category', 'subcategory')
 
