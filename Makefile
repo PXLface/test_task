@@ -8,7 +8,7 @@ APP_CONTAINER = main-app
 EXEC = docker exec -it
 MANAGE_PY = python manage.py
 
-.PHONY: app-start
+.PHONY: app-up
 app-start:
 	${DC} -f ${APP_FILE} -f ${STORAGES_FILE} ${ENV} up --build -d
 

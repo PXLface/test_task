@@ -4,3 +4,4 @@ static/*
 !static/.gitkeep
 .venv/
 __pycache__/
+.obsidian
