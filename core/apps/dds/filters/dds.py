@@ -6,6 +6,16 @@ from django.db.models import Q
 
 @dataclass(frozen=True)
 class DDSFilters:
+    """Фильтр для ДДС
+
+    Не имеет поля id и created_at.
+
+    Для фильтрации диапазоном дат по полю created_at используются
+    date_from и date_to.
+
+    Для получения записей за один день приходится указывать диапазон где:
+    date_from = date_to.
+    """
     status: str | None = None
     operation_type: str | None = None
     category: str | None = None
@@ -14,27 +24,16 @@ class DDSFilters:
     date_to: date | None = None
 
     @property
-    def has_status(self) -> bool:
-        return self.status is not None
-
-    @property
-    def has_operation_type(self) -> bool:
-        return self.operation_type is not None
-
-    @property
-    def has_category(self) -> bool:
-        return self.category is not None
-
-    @property
-    def has_subcategory(self) -> bool:
-        return self.subcategory is not None
-
-    @property
     def has_date(self) -> bool:
+        """Показывает указан ли какой-либо диапазон дат"""
         return self.date_from is not None or self.date_to is not None
 
 
 class DDSFilterSpecification:
+    """Последовательно применяет все фильтры.
+
+    Querysets are lazy.
+    """
     def __call__(self, filters: DDSFilters) -> Q:
         query = Q()
 

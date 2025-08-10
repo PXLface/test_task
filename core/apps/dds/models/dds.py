@@ -6,6 +6,11 @@ from core.apps.common.models import TimeBaseModel
 
 
 class DDS(TimeBaseModel):
+    """Модель движения денежных средств (ДДС).
+
+    Тип операции, категория и подкатегория связаны через ChainedForeignKey.
+    Тип операции -> категория, категория -> подкатегория.
+    """
     status = models.ForeignKey(
         "ChoiceStatus",
         verbose_name="Статус",

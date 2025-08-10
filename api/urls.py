@@ -8,5 +8,5 @@ from .views import (
 
 urlpatterns = [
     path('dds', DDSListView.as_view(), name='dds-list'),
-    path('dds/post/', DDSCreateView.as_view(), name='dds_create'),
+    path('dds/post/', DDSCreateView.as_view(), name='dds-create'),
 ]

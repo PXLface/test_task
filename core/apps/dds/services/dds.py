@@ -17,25 +17,42 @@ class IGETDDS(ABC):
 
 @dataclass
 class ICreateDDS(ABC):
+    """Интерфейс для операций создания записей ДДС."""
     @staticmethod
     def create_dds(self, dto: CreateDDSDTO) -> CreateDDSDTO:
+        """Создаёт новую запись ДДС.
+
+        Возвращает созданный DTO с зарегестрированным ID в базе данных
+        """
         ...
 
 
 class GetDDSService(IGETDDS):
+    """Сервис для получения данных ДДС."""
+
     def __init__(self, repository: IDDSRepository):
         self._repository = repository
 
     def get_dds_list(self, filters: DDSFilters, pagination) -> Iterable[DDSResponseDTO]:
+        """Реализация получения списка ДДС.
+
+        Получает данные из репозитория и преобразует их в DTO.
+        """
         entity = self._repository.get_dds_list(filters=filters, pagination=pagination)
         return [DDSResponseDTO.from_entity(entity=items) for items in entity]
 
 
 class CreateDDSSErvice(ICreateDDS):
+    """Сервис для создания записей ДДС"""
+
     def __init__(self, repository: IDDSRepository):
         self._repository = repository
 
     def create_dds(self, dto: CreateDDSDTO) -> CreateDDSDTO:
+        """Реализация создания записи ДДС.
+
+        Преобразует DTO в сущность, сохраняет с возвращением обновленного DTO
+        """
         entity = dto.to_entity()
         self._repository.save(entity=entity)
         dto.id = entity.id

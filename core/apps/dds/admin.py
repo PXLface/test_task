@@ -36,9 +36,3 @@ class ChoiceCategoryAdmin(admin.ModelAdmin):
 class ChoiceSubcategoryAdmin(admin.ModelAdmin):
     search_fields = ['choice_value']
     list_filter = ['category']
-
-    def get_search_results(self, request, queryset, search_term):
-        queryset, use_distinct = super().get_search_results(request, queryset, search_term)
-        if 'category_id' in request.GET:
-            queryset = queryset.filter(category_id=request.GET['category_id'])
-        return queryset, use_distinct

@@ -17,13 +17,23 @@ from core.apps.dds.repositories.base import IDDSRepository
 
 
 class ORMDDSRepository(IDDSRepository):
+    """Репозиторий для обработки операций ДДС."""
+
     def _get_filtered_queryset(self, filters: DDSFilters) -> QuerySet:
+        """Применение фильтров к запросу БД.
+
+        Возвращает отфильтрованный QuerySet с записями ДДС.
+        """
         spec = DDSFilterSpecification()
         query = spec(filters)
         return DDSModel.objects.filter(query)
 
     def _from_entity(self, entity: DDSEntity) -> DDSModel:
-        """Convert Domain Entity to Database Model"""
+        """Конвертирует Entity в Django модель.
+
+        В связи с наличием ForeignKey полей имеет подзапросы.
+        """
+        # !TODO Реализовать кэширование для получения Choices полей
         return DDSModel(
             id=entity.id,
             status=ChoiceStatus.objects.get(choice_value=entity.status),
@@ -36,6 +46,7 @@ class ORMDDSRepository(IDDSRepository):
         )
 
     def _to_entity(self, model: DDSModel) -> DDSEntity:
+        """Конвертирует Django модель в Entity."""
         return DDSEntity(
             id=model.id,
             status=model.status.choice_value,
@@ -52,18 +63,25 @@ class ORMDDSRepository(IDDSRepository):
         filters: DDSFilters,
         pagination: PaginationIn,
     ) -> list:
+        """Выдаёт список ДДС с примененными фильтрами и параметрами пагинации."""
         qs = self._get_filtered_queryset(filters=filters)[pagination.offset:pagination.offset + pagination.limit]
 
         return [self._to_entity(model=item) for item in qs]
 
     def get_dds_queryset(self, filters: DDSFilters) -> QuerySet:
+        """Выдает отфильтрованный QuerySet с записями ДДС."""
         return self._get_filtered_queryset(filters=filters)
 
     def save(self, entity: DDSEntity) -> DDSEntity:
+        """Сохраняет данные из Entity в базу данных.
+
+        Возвращает Entity с полученным id
+        """
         model = self._from_entity(entity=entity)
         model.save()
         entity.id = model.id
         return entity
 
     def delete(self, id): # noqa
+        # !TODO Удаление не реализовано
         ...

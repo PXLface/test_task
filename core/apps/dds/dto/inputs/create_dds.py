@@ -7,6 +7,7 @@ from core.apps.dds.entities.dds import DDS as DDSEntity
 
 @dataclass
 class CreateDDSDTO:
+    """DTO для создания новой записи ДДС"""
     id: int | None # noqa
     status: str
     operation_type: str
@@ -17,6 +18,7 @@ class CreateDDSDTO:
     created_at: date
 
     def to_entity(self) -> DDSEntity:
+        """Преобразует DTO в Domain Entity ДДС"""
         return DDSEntity(
             id=None,
             status=self.status,

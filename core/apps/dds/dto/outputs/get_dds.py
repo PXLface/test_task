@@ -7,6 +7,7 @@ from core.apps.dds.entities.dds import DDS as DDSEntity
 
 @dataclass
 class DDSResponseDTO:
+    """DTO для выдачи ДДС в GET запросе"""
     id: int # noqa
     status: str
     operation_type: str
@@ -18,6 +19,7 @@ class DDSResponseDTO:
 
     @classmethod
     def from_entity(cls, entity: DDSEntity):
+        """Конвертирует Domain Entity в DTO"""
         return cls(
             id=entity.id,
             status=entity.status,

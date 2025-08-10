@@ -15,12 +15,12 @@ class DDSApiFilter(serializers.Serializer):
 
     def to_entity_filters(self) -> DDSFilters:
         return DDSFilters(
-            status=self.get('status'),
-            operation_type=self.get('operation_type'),
-            category=self.get('category'),
-            subcategory=self.get('subcategory'),
-            date_from=self.get('date_from'),
-            date_to=self.get('date_to'),
+            status=self.validated_data.get('status'),
+            operation_type=self.validated_data.get('operation_type'),
+            category=self.validated_data.get('category'),
+            subcategory=self.validated_data.get('subcategory'),
+            date_from=self.validated_data.get('date_from'),
+            date_to=self.validated_data.get('date_to'),
         )
 
 

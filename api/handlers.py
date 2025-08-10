@@ -11,8 +11,13 @@ logger = logging.getLogger(__name__)
 
 
 def handle_dds_exceptions(view_func):
+    """Декоратор для обработки исключений в DDS API View
+
+    Выводит все детали в response
+    """
+    # !TODO Сделать безопасный response для условного production
     @wraps(view_func)
-    def wrapper(request, *args, **kwargs):
+    def wrapper(request, *args, **kwargs) -> Response:
         try:
             return view_func(request, *args, **kwargs)
 
