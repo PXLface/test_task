@@ -15,9 +15,10 @@ cd your_repository
 
 ## 📦 Install requirements
 
-1. Install [Docker][Web app, which allows users to crate, edit, delete and view cash flow records]
-2. If Docker version is less than 23.0 than install [Docker-compose][https://docs.docker.com/compose/install/]
-3. Install [GNU Make][https://www.gnu.org/software/make/] for convenience
+
+1. Install [Docker](https://docs.docker.com/engine/install/)
+2. If Docker version is less than 23.0 than install [Docker-compose](https://docs.docker.com/compose/install/)
+3. Install [GNU Make](https://www.gnu.org/software/make/) for convenience
 
 ---
 
