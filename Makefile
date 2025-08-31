@@ -10,7 +10,7 @@ ENV = --env-file .env
 MANAGE_PY = python manage.py
 
 LOGS = docker logs
-EXEC = docker exeс -it
+EXEC = docker exec -it
 
 .PHONY: storages_up
 storages_up:
@@ -36,9 +36,13 @@ app_up_no_build:
 app_down:
 	${DC} -f ${APP_FILE} -f ${STORAGES_FILE} down
 
+.PHONY: makemigrations
+makemigrations:
+	${EXEC} ${APP_CONTAINER} ${MANAGE_PY} makemigrations
+
 .PHONY: migrate
 migrate:
-	${EXEC} ${APP_CONTAINER} ${MANAGE_PY} makemigrations
+	${EXEC} ${APP_CONTAINER} ${MANAGE_PY} migrate
 
 .PHONY: superuser
 superuser:

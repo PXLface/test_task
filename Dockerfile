@@ -8,7 +8,8 @@ WORKDIR /core
 RUN apt update -y && \
     apt install -y python3-dev \
     gcc \
-    musl-dev
+    musl-dev \
+    postgresql-client
 
     COPY pyproject.toml poetry.lock* /core/
 

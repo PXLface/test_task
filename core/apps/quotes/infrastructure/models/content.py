@@ -14,7 +14,7 @@ class ContentModel(TimeBaseModel):
     def from_entity(cls, entity: ContentEntity) -> 'ContentModel':
         return cls(
             pk=entity.id,
-            type=entity.content_type,
+            content_type=entity.content_type,
             author=entity.author,
             title=entity.title,
             description=entity.description,
