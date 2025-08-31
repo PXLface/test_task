@@ -1,0 +1,24 @@
+[project]
+name = "test-task-fastapi"
+version = "0.1.0"
+description = ""
+authors = [
+    {name = "PXLface",email = "iipixelfaceii@gmail.com"}
+]
+readme = "README.md"
+requires-python = ">=3.13,<4"
+dependencies = [
+    "django (>=5.2.5,<6.0.0)",
+    "django-ninja (>=1.4.3,<2.0.0)",
+    "psycopg (>=3.2.9,<4.0.0)",
+    "django-environ (>=0.12.0,<0.13.0)",
+
+]
+
+
+[build-system]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.poetry.group.dev.dependencies]
+pre-commit = "^4.3.0"

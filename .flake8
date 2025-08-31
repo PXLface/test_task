@@ -1,0 +1,14 @@
+[flake8]
+max-line-length = 79
+extend-ignore = E203
+exclude =
+    .git,
+    __pycache__,
+    migrations,
+    venv,
+    .venv,
+    .tox,
+    .mypy_cache,
+    .pytest_cache,
+    .vscode,
+    static,
